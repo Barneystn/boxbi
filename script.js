@@ -35,34 +35,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.querySelector('#search-input');
-    const searchButton = document.querySelector('#search-button');
-
-    function toggleSearchButton() {
-        searchButton.disabled = !searchInput.value.trim();
-    }
-
-    searchInput.addEventListener('input', function() {
-        toggleSearchButton();
-    });
-    
-    searchInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            filterMovies(); // فیلتر کردن فیلم‌ها در صورت فشار دادن Enter
-        }
-    });
-
-    searchButton.addEventListener('click', function() {
-        filterMovies(); // فیلتر کردن فیلم‌ها در صورت کلیک بر روی دکمه جستجو
-    });
-
-    toggleSearchButton(); // غیرفعال کردن دکمه جستجو در ابتدا
-});
-
-// رویدادها
-document.querySelector('#search-input').addEventListener('input', filterMovies);
-document.querySelector('#search-input').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        filterMovies();
-    }
