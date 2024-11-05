@@ -3,10 +3,36 @@ const cardsPerPage = 5;
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('#search-input');
+    const searchButton = document.querySelector('#search-button');
     const cards = document.querySelectorAll("#movie-list .card");
     const currentPath = window.location.pathname;
 
+    // تابعی برای فعال یا غیرفعال کردن دکمه جستجو
+    function toggleSearchButton() {
+        searchButton.disabled = !searchInput.value.trim();
+    }
+
+    // غیرفعال کردن دکمه جستجو در ابتدا
+    toggleSearchButton();
+
+    // رویدادها
+    searchInput.addEventListener('input', function() {
+        toggleSearchButton(); // وضعیت دکمه را با توجه به ورودی تغییر دهید
+    });
+    
+    searchInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            filterMovies();
+        }
+    });
+
+    searchButton.addEventListener('click', function() {
+        filterMovies();
+    });
+
+    // فیلتر کردن کارت‌ها بر اساس URL
     cards.forEach(card => {
         if (currentPath.includes("/movies") && !card.getAttribute("href").includes("movies")) {
             card.style.display = "none";
