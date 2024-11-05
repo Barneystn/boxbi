@@ -10,10 +10,6 @@ window.onload = function() {
         const skeletons = document.getElementById('skeletons');
         skeletons.style.display = 'none';
 
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.style.display = 'block';
-        });
 
         const params = new URLSearchParams(window.location.search);
         const pageParam = params.get('page');
