@@ -1,5 +1,5 @@
 let currentPage = 1;
-const cardsPerPage = 5;
+const cardsPerPage = 2;
 
 let sortOrder = {
     latest: true,
@@ -12,10 +12,6 @@ window.onload = function() {
 
         const skeletons = document.getElementById('skeletons');
         skeletons.style.display = 'none';
-
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.style.display = 'block';
         });
 
         const params = new URLSearchParams(window.location.search);
