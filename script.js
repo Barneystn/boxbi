@@ -1,21 +1,75 @@
 let currentPage = 1;
-const cardsPerPage = 2;
+const cardsPerPage = 5;
+
+let sortOrder = {
+    latest: true,
+    'top-rated': true,
+    'site-rated': true
+};
 
 
+window.onload = function() {
+
+        const skeletons = document.getElementById('skeletons');
+        skeletons.style.display = 'none';
+
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.display = 'block';
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const pageParam = params.get('page');
+        currentPage = pageParam ? parseInt(pageParam) : 1;
+        
+        showPage(currentPage);
+    } else {
+        window.location.href = '../login.html';
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll("#movie-list .card");
+    const currentPath = window.location.pathname;
+
+    // فیلتر کردن کارت‌ها بر اساس URL
+    cards.forEach(card => {
+        if (currentPath.includes("/movies") && !card.getAttribute("href").includes("movies")) {
+            card.style.display = "none";
+        } else if (currentPath.includes("/series") && !card.getAttribute("href").includes("series")) {
+            card.style.display = "none";
+        } else if (currentPath.includes("/anime") && !card.getAttribute("href").includes("anime")) {
+            card.style.display = "none";
+        } else if (currentPath.includes("/irani") && !card.getAttribute("href").includes("irani")) {
+            card.style.display = "none";
+        }
+    });
+
+    // چک می‌کند که آیا تم قبلاً ذخیره شده است یا خیر
+    const savedTheme = localStorage.getItem('theme') || 'retro';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // تغییر وضعیت چک‌باکس بر اساس تم ذخیره شده
+    const themeController = document.getElementById('theme-controller');
+    themeController.checked = savedTheme === 'forest';
+
+    // اضافه کردن رویداد به چک‌باکس
+    themeController.addEventListener('change', function () {
+        const newTheme = themeController.checked ? 'forest' : 'retro';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('#search-input');
     const searchButton = document.querySelector('#search-button');
-    const cards = document.querySelectorAll("#movie-list .card");
-    const currentPath = window.location.pathname;
 
     // تابعی برای فعال یا غیرفعال کردن دکمه جستجو
     function toggleSearchButton() {
         searchButton.disabled = !searchInput.value.trim();
     }
-
-    // غیرفعال کردن دکمه جستجو در ابتدا
-    toggleSearchButton();
 
     // رویدادها
     searchInput.addEventListener('input', function() {
@@ -32,32 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         filterMovies();
     });
 
-    // فیلتر کردن کارت‌ها بر اساس URL
-    cards.forEach(card => {
-        if (currentPath.includes("/movies") && !card.getAttribute("href").includes("movies")) {
-            card.style.display = "none";
-        } else if (currentPath.includes("/series") && !card.getAttribute("href").includes("series")) {
-            card.style.display = "none";
-        } else if (currentPath.includes("/anime") && !card.getAttribute("href").includes("anime")) {
-            card.style.display = "none";
-        } else if (currentPath.includes("/irani") && !card.getAttribute("href").includes("irani")) {
-            card.style.display = "none";
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const savedTheme = localStorage.getItem('theme') || 'retro';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    const themeController = document.getElementById('theme-controller');
-    themeController.checked = savedTheme === 'forest';
-
-    themeController.addEventListener('change', function () {
-        const newTheme = themeController.checked ? 'forest' : 'retro';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
+    // غیرفعال کردن دکمه جستجو در ابتدا
+    toggleSearchButton();
 });
 
 function showPage(page, filteredMovies = null) {
@@ -251,4 +281,3 @@ document.querySelector('#search-input').addEventListener('keypress', function(ev
         filterMovies();
     }
 });
-
